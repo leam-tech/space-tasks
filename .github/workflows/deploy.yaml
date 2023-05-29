@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PLAYGROUND_HOST }}
+          username: ${{ secrets.PLAYGROUND_USER }}
+          key: ${{ secrets.PLAYGROUND_KEY }}
+        
+        script: |
+          set -e
+
+          export PATH=/home/frappe/.nvm/versions/node/v18.12.1/bin/:$PATH
+          alias supervisor='supervisorctl'
+
+          git reset --hard
+          git pull
+          npm install
+
+          npx nx run-many --target=build --all --skip-nx-cache;
+          supervisor restart space-tasks
