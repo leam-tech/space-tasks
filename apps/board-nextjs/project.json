@@ -24,7 +24,8 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "board-nextjs:build",
-        "dev": true
+        "dev": true,
+        "port": 4010
       },
       "configurations": {
         "development": {
