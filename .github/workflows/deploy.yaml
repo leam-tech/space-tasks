@@ -18,6 +18,7 @@ jobs:
 
             export PATH=/home/frappe/.nvm/versions/node/v18.12.1/bin/:$PATH
             alias supervisor='supervisorctl'
+            cd /home/frappe/www/space-tasks
 
             git reset --hard
             git pull
