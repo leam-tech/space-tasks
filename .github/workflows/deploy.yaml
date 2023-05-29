@@ -16,6 +16,9 @@ jobs:
           script: |
             set -e
 
+            # This is a non-interactive shell so we need to explicitly ask to expand aliases
+            shopt -s expand_aliases
+
             export PATH=/home/frappe/.nvm/versions/node/v18.12.1/bin/:$PATH
             alias supervisor='supervisorctl'
             cd /home/frappe/www/space-tasks
