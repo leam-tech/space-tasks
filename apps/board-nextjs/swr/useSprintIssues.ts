@@ -63,8 +63,10 @@ export default function useSprintIssues(sprintIds: string[]) {
             const statusComments = comments.filter((c) =>
               c.text.startsWith('Status: ')
             );
+            const reversedStatusComments = [...statusComments].reverse();
 
-            const openInProgress = statusComments.find((c) =>
+            // Use the latest Open -> InProgress comment since the task can be moved back to Open
+            const openInProgress = reversedStatusComments.find((c) =>
               c.text.includes('-> In progress')
             );
             const inProgressReadyForReview = statusComments.find((c) =>

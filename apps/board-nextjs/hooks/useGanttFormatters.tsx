@@ -89,7 +89,18 @@ export default function useFormatSpaceIssue() {
       }, {} as Record<string, Task[]>);
 
       const sortedTasks = tasks
-        .filter((x) => !x.dependencies || x.dependencies.length === 0)
+        .filter((x) => {
+          if (!x.dependencies || x.dependencies.length === 0) {
+            return true;
+          }
+
+          // These are tasks that have dependencies, but the dependencies are on OLDER boards
+          const parent = x.dependencies.find((y) => taskMap[y]);
+          if (!parent) {
+            return true;
+          }
+          return false;
+        })
         .sort((a, b) => a.start.getTime() - b.start.getTime());
 
       const sortedParentChildTasks = sortedTasks.reduce((acc, task) => {
